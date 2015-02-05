@@ -8,6 +8,12 @@ Desktop.ini
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 
+.settings/
+Output_webOS/
+WebContent/
+css/
+.project
+
 # Windows Installer files
 *.cab
 *.msi
