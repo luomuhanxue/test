@@ -1,0 +1,11 @@
+{
+    "id": "Angame.MeiTuan",
+    "version": "0.0.1",
+    "vendor": "My Company",
+    "type": "web",
+    "main": "index.html",
+    "title": "meituan",
+    "icon": "icon.png",
+    "largeIcon": "largeIcon.png",
+    "uiRevision": 2
+}
