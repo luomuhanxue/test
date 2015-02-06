@@ -10,14 +10,12 @@ ListPage={
       Mobilebone.transition(page_in,self_page);
     });
   },
-  anim_start:function(page,into_or_out){
-    if (into_or_out=="into"){
+  enter:function(){
 
-    };
   },
-  anim_end:function(page,into_or_out){
-    if(into_or_out=="into"){
+  out:function(){
 
-    };
-  },
+  }
 };
+
+extend(ListPage,Page);
