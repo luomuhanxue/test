@@ -115,9 +115,11 @@ SelectPage={
       return;
     }
     //跳转到列表页面
-    var self_page = document.querySelector(".in." + Mobilebone.classPage);
-    var city_page = document.querySelector("#list_page");
-    var page_in = Mobilebone.createPage(city_page);
+    if (idx===3) {
+        var self_page = document.querySelector(".in." + Mobilebone.classPage);
+        var city_page = document.querySelector("#detail_page");
+        var page_in = Mobilebone.createPage(city_page);
+    };
   },
 };
 //继承Page
