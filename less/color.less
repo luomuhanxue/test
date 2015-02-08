@@ -1,0 +1,26 @@
+@charset "utf-8";
+
+@titleColor:#23C8B7;
+@darkTitleColor:#10A192;
+@foucsShadowColor:##ABFAF7;
+@bgColor:#cff;
+
+
+.focus-anim(){
+	-box-shadow: 0 0 15px @foucsShadowColor;
+	-webkit-box-shadow:0 0 15px @foucsShadowColor;
+	animation: btnzoom 1s linear infinite;
+	//-moz-animation: btnzoom 1s linear infinite;
+	-webkit-animation: btnzoom 1s linear infinite;
+	//-o-animation: btnzoom 1s linear infinite;
+}
+
+@keyframes btnzoom{
+	from，to { transform: none; color: @titleColor; border-color: @titleColor;}
+  	50% { transform: scale(1.1); color: @darkTitleColor; border-color:@darkTitleColor;}
+}
+
+@-webkit-keyframes btnzoom{
+	from，to { transform: none; color: @titleColor; border-color: @titleColor;}
+  	50% { transform: scale(1.1); color: @darkTitleColor; border-color:@darkTitleColor;}
+}

@@ -14,7 +14,7 @@ SelectPage={
       that.focus_item.zfocus();
     };
     var click = function(){
-      alert(this.z_idx);
+      that.clickById(this.z_idx);
     };
     var zfocus = function(){
       this.classList.add("select-focus");
@@ -34,17 +34,23 @@ SelectPage={
       temp.onmouseover = mouseover;
     }
     var city = page.find("#city-select");
-    city.z_idx = -4;
-    city.zfocus = function(){
-
+    city[0].z_idx = -4;
+    city[0].zfocus = function(){
+      this.classList.add("select-anim");
     };
-    city.zunfocus = function(){
-
+    city[0].zunfocus = function(){
+      this.classList.remove("select-anim");
     };
-    city.click = function(){
+    city[0].onclick = function(){
       that.clickById(this.z_idx);
     };
-    this.city_btn = city;
+    city[0].onmouseover = function(){
+      if (that.focus_item) {that.focus_item.zunfocus();};
+      that.focus_item = this;
+      that.focus_item.zfocus();
+    }
+    this.city_btn = city[0];
+
     //第一次进入的页面要在此注册键盘事件
     KeyEventDispatcher.registerKeyDownEvent(this);
     this.focus_item = this.controls[0];
