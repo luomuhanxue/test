@@ -77,18 +77,30 @@
 
 .list-item{
 	display: inline-block;
+	position: relative;
 	width: 32%;
 	text-align: left;
 	.border{
 		border: 3px solid #ccc;
-		&:hover{
-			border: 3px solid #3cc;
+		position: relative;
+		&.btn-focus{
+			border-color: #3cc;
+		}
+		.info{
+			position: absolute;
+			width: 100%;
+			font-size: 1.2em;
+			line-height: 1.5em;
+			margin-top: -2px;
+			-webkit-transform: translateY(-110%);
+			transform: translateY(-110%);
+			background-color: rgba(255, 255, 255, 0.6);
 		}
 	}
 	img{
 		width: 100%;
+		border-bottom: 2px solid #ccc;
 	}
-	
 }
 
 .list-item + .list-item{
