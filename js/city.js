@@ -4,17 +4,22 @@ CityPage={
     //屏幕自适应
     //LayoutFix.resize($(".header-icon"));
   },
-  anim_start:function(page,into_or_out){
+  enter:function(page,into_or_out){
     if (into_or_out=="into"){
 
     };
   },
-  anim_end:function(page,into_or_out){
+  out:function(page,into_or_out){
     if(into_or_out=="into"){
 
     };
   },
+  onkeydown:function(keycode){
+
+  }
 };
+
+extend(CityPage,Page);
 
 
 

@@ -119,6 +119,10 @@ SelectPage={
         var self_page = document.querySelector(".in." + Mobilebone.classPage);
         var city_page = document.querySelector("#detail_page");
         var page_in = Mobilebone.createPage(city_page);
+    }else if(idx===0){
+        var self_page = document.querySelector(".in." + Mobilebone.classPage);
+        var city_page = document.querySelector("#city_page");
+        var page_in = Mobilebone.createPage(city_page);
     };
   },
 };

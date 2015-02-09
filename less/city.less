@@ -1,6 +1,26 @@
 
 @charset "utf-8";
 
+@import "color.less";
+
+#city-head{
+	position: relative;
+	height: 100%;
+	width: 100%;
+	text-align: center;
+}
+
+//标题
+#city-title{
+	display: inline-block;
+	font-size: 3em;
+	line-height: 1.8em;
+	color:@titleColor;
+    -box-shadow: 0 0 15px @foucsShadowColor;
+ 	-webkit-box-shadow:0 0 15px @foucsShadowColor;
+}
+
+
 //城市选择项
 .city-item(@w,@fs,@lh,@mt){
   	display: inline-block;
