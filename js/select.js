@@ -6,6 +6,11 @@ SelectPage={
   line_count:4,     //一行的控件数
   init:function(pageInto,pageOut,response){
     var that = this;
+    //自适应
+    var w = $("body").css("width");
+    w = w.substring(0, (w.length - 2));
+    var p = w / 1280 * 15;
+    $("html").css("fontSize", p);  
     //转化控件
     var page = $('#select_page');
     var mouseover = function(){
