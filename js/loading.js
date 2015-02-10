@@ -57,6 +57,6 @@ Loading = {
 			history.back();
 	        break;
 	      default:return;
-  	}
+  		}
 	}
 };

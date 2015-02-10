@@ -55,11 +55,20 @@ SelectPage={
       that.focus_item.zfocus();
     }
     this.city_btn = city[0];
-
+    this.city_name = '北京';
+    this.city_code = 'beijing';
+    this.city_btn.innerText = this.city_name+" >";
     //第一次进入的页面要在此注册键盘事件
     KeyEventDispatcher.registerKeyDownEvent(this);
     this.focus_item = this.controls[0];
     this.focus_item.zfocus();
+  },
+  setCityData:function(name,code){
+    this.city_name = name;
+    this.city_code = code;
+  },
+  updateCity:function(){
+    this.city_btn.innerText = this.city_name+' >';
   },
   enter:function(){
     //注意:首次默认进入的界面不会调用 
@@ -69,6 +78,7 @@ SelectPage={
       this.focus_item = this.controls[0];
       this.focus_item.zfocus();
     };
+    this.updateCity();
   },
   out:function(){
     //每次离开页面会调用此方法
@@ -115,20 +125,37 @@ SelectPage={
   clickById:function(idx){
     if(idx==-4){  //跳转到城市选择页面
       var self_page = document.querySelector(".in." + Mobilebone.classPage);
-      var city_page = document.querySelector("#list_page");
+      var city_page = document.querySelector("#city_page");
       var page_in = Mobilebone.createPage(city_page);
       return;
     }
     //跳转到列表页面
-    if (idx===3) {
+    switch(idx){
+      case 0:
+        var self_page = document.querySelector(".in." + Mobilebone.classPage);
+        var city_page = document.querySelector("#list_page");
+        var page_in = Mobilebone.createPage(city_page);
+        return;
+      case 1:
+        Loading.show();
+        var ajaxId = DealPost.cityList(function(d){
+
+        },function(d){
+
+        });
+        Loading.registerAjaxId(ajaxId);
+        return;
+      case 2:
+      case 3:
         var self_page = document.querySelector(".in." + Mobilebone.classPage);
         var city_page = document.querySelector("#detail_page");
         var page_in = Mobilebone.createPage(city_page);
-    }else if(idx===0){
-        var self_page = document.querySelector(".in." + Mobilebone.classPage);
-        var city_page = document.querySelector("#city_page");
-        var page_in = Mobilebone.createPage(city_page);
-    };
+        return;
+      case 4:
+      case 5:
+      case 6:
+      case 7:
+    }
   },
 };
 //继承Page

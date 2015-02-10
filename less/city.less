@@ -30,10 +30,11 @@
 }
 
 @city-border: grey;
-@city-color1: #004439;
-@city-color2: #035964;
+@city-color1: #578d94;
+@city-color2: #7fbdbd;
 @city-color3: #B0F9F0; //rgba(224, 149, 224, 1);
 @border-width: 2px;
+@city-item-color:#047469;
 
 #city-left{
 	position: absolute;
@@ -43,7 +44,6 @@
 	height: 80%;
 	text-align: right;
 	z-index: 3;
-	margin-top: @border-width;
 	.city-item-head{
 		display: inline-block;
 		height: 20%;
@@ -51,22 +51,23 @@
 		font-size: 2em;
 		line-height: 4em;
 		padding-right: 10%;
+		-webkit-border-radius:10px 0px 0px 10px;
 		border-radius: 10px 0px 0px 10px;
 		background-color: @city-color1;
 		color: white;
 		border-left:@border-width solid @city-border;
 		border-top:@border-width solid @city-border;
 		border-bottom:@border-width solid @city-border;
-		//border: @border-width solid @city-border;
-		margin-top: -@border-width;
 		&.select{
 			border-right: @border-width solid @city-color2;
 			background-color: @city-color2;
 		}
 		&.focus{
-			//border-right: @border-width solid @city-color2;
-			//background-color: @city-color2;
-			color:yellow;
+			-webkit-box-shadow:0px 0px 3px rgba(80%,40%,40%,0.9),0px 0px 3px rgba(80%,40%,40%,0.9),0px 0px 3px rgba(80%,40%,40%,0.9),0px 0px 3px rgba(80%,40%,40%,0.9); 
+			box-shadow:0px 0px 3px rgba(80%,40%,40%,0.9),0px 0px 3px rgba(80%,40%,40%,0.9),0px 0px 3px rgba(80%,40%,40%,0.9),0px 0px 3px rgba(80%,40%,40%,0.9);
+			color: rgba(255, 0,0, 0.8);
+			border: 2px solid rgba(255, 0,0, 0.8);
+			color: rgba(255, 0,0, 0.8);
 		}
 	}
 }
@@ -74,7 +75,7 @@
 #city-mid{
 	position: absolute;
 	top:4%;
-	left: 7.7%;
+	left: 7.65%;
 	width: 10%;
 	height: 80%;
 	border-top: @border-width solid @city-border;
@@ -82,23 +83,28 @@
 	border-left: @border-width solid @city-border;
 	text-align: right;
 	background-color: @city-color2;
+	margin-left: -@border-width;
+	-webkit-border-radius:0px 0px 0px 10px;
+	border-radius: 0px 0px 0px 10px;
 	.city-char{
 		display: inline-block;
-		height: 16.6%;
+		height: 16%;
 		width: 30%;
 		padding-right: 10%;
 		font-size: 2em;
 		line-height: 3em;
 		background-color: @city-color2;
+		border: 2px solid rgba(255, 0,0, 0);
+		-webkit-border-radius:5px 0px 0px 5px;
 		border-radius: 5px 0px 0px 5px;
 		color: white;
 		&.focus{
-			//background-color: @city-color3;
-			color:yellow;
+			color: rgba(255, 0,0, 0.8);
+			border: 2px solid rgba(255, 0,0, 0.8);
 		}
 		&.select{
 			background-color: @city-color3;
-			color:black;
+			color:@city-item-color;
 		}
 	}
 	z-index: 2;
@@ -109,30 +115,109 @@
 	border-bottom: @border-width solid @city-border;
 	border-right: @border-width solid @city-border;
 	position: absolute;
+	-webkit-border-radius:0px 10px 10px 0px;
+	border-radius: 0px 10px 10px 0px;
 	top:4%;
 	left: 17.7%;	//22
 	width: 80.3%;
 	height: 80%;
 	background-color: @city-color3;
+	margin-left: -@border-width;
 	z-index: 1;
+	overflow: hidden;
 }
 
 .city-content{
 	width: 100%;
 	height: 100%;
+	text-align: left;
+	margin-left: 5%;
+	font-size: 1em;
+	overflow: hidden;
+	position: absolute;
+	&.out{
+	  -webkit-transform: translateY(-110%);
+	  transform: translateY(-110%);
+	}
+	&.in{
+	  -webkit-transform: translateY(0);
+	  transform: translateY(0);
+	}
 }
 
 .city-item{
 	display: inline-block;
 	width: 15%;
-	height: 12%;
-	margin-top: 1%;
-	//border: 1px solid red;
+	height: 9%;
+	margin-top: 1.5%;
+	border: 2px solid rgba(255, 255, 255, 0);
 	font-size: 1.5em; 
-	line-height: 3.5em;
+	line-height: 2.5em;
+	-webkit-border-radius:4px;
+	border-radius: 4px;
+  	text-align: center;
+  	color:@city-item-color;
 	&.focus{
-		
+		border: 2px solid rgba(255, 0,0, 0.8);
+		-webkit-border-radius:4px;
+		border-radius: 4px;
+		-webkit-box-shadow:0px 0px 3px rgba(80%,40%,40%,0.9),0px 0px 3px rgba(80%,40%,40%,0.9),0px 0px 3px rgba(80%,40%,40%,0.9),0px 0px 3px rgba(80%,40%,40%,0.9); 
+		box-shadow:0px 0px 3px rgba(80%,40%,40%,0.9),0px 0px 3px rgba(80%,40%,40%,0.9),0px 0px 3px rgba(80%,40%,40%,0.9),0px 0px 3px rgba(80%,40%,40%,0.9);	
 	}
 }
 
 
+//-----------------------------城市选择切页动画------------------------
+
+.anim.in {
+	animation:rtolin  .5s ease-in-out;
+	-webkit-animation:rtolin  .5s ease-in-out ;
+}
+.anim.out {
+	animation:rtolout  .5s ease-in-out;
+	-webkit-animation:rtolout  .5s ease-in-out ;
+}
+.back.in{
+	animation:ltorin  .5s ease-in-out;
+	-webkit-animation:ltorin  .5s ease-in-out ;
+}
+.back.out{
+	animation:ltorout  .5s ease-in-out;
+	-webkit-animation:ltorout  .5s ease-in-out ;
+}
+
+@-webkit-keyframes rtolin {
+    from { -webkit-transform: translateY(110%); }
+    to { -webkit-transform: translateY(0); }
+}
+@keyframes rtolin {
+    from { -webkit-transform: translateY(110%); }
+    to { -webkit-transform: translateY(0); }
+}
+
+@-webkit-keyframes rtolout {
+    from { -webkit-transform: translateY(0); }
+    to { -webkit-transform: translateY(-110%); }
+}
+@keyframes rtolout {
+    from { -webkit-transform: translateY(0); }
+    to { -webkit-transform: translateY(-110%); }
+}
+
+@-webkit-keyframes ltorin {
+    from { -webkit-transform: translateY(-110%); }
+    to { -webkit-transform: translateY(0); }
+}
+@keyframes ltorin {
+    from { -webkit-transform: translateY(-110%); }
+    to { -webkit-transform: translateY(0); }
+}
+
+@-webkit-keyframes ltorout {
+    from { -webkit-transform: translateY(0); }
+    to { -webkit-transform: translateY(110%); }
+}
+@keyframes ltorout {
+    from { -webkit-transform: translateY(0); }
+    to { -webkit-transform: translateY(110%); }
+}
