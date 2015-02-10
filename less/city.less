@@ -41,10 +41,6 @@
 	left: 2%;
 	width: 5%;
 	height: 80%;
-	//border-top: 3px solid red;
-	//border-left:  3px solid red;
-	//border-bottom: 3px solid red;
-	//background-color: rgba(0, 255, 255, 1);
 	text-align: right;
 	z-index: 3;
 	margin-top: @border-width;
@@ -53,23 +49,24 @@
 		height: 20%;
 		width: 100%;
 		font-size: 2em;
-		line-height: 4.5em;
+		line-height: 4em;
 		padding-right: 10%;
 		border-radius: 10px 0px 0px 10px;
 		background-color: @city-color1;
 		color: white;
-		//border-left:2px solid blue;
-		//border-top:2px solid blue;
-		//border-bottom:2px solid blue;
-		border: @border-width solid @city-border;
+		border-left:@border-width solid @city-border;
+		border-top:@border-width solid @city-border;
+		border-bottom:@border-width solid @city-border;
+		//border: @border-width solid @city-border;
 		margin-top: -@border-width;
 		&.select{
 			border-right: @border-width solid @city-color2;
 			background-color: @city-color2;
 		}
-		&:hover{
-			border-right: @border-width solid @city-color2;
-			background-color: @city-color2;
+		&.focus{
+			//border-right: @border-width solid @city-color2;
+			//background-color: @city-color2;
+			color:yellow;
 		}
 	}
 }
@@ -95,11 +92,13 @@
 		background-color: @city-color2;
 		border-radius: 5px 0px 0px 5px;
 		color: white;
-		&:hover{
-			background-color: @city-color3;
+		&.focus{
+			//background-color: @city-color3;
+			color:yellow;
 		}
 		&.select{
 			background-color: @city-color3;
+			color:black;
 		}
 	}
 	z-index: 2;
@@ -131,4 +130,9 @@
 	//border: 1px solid red;
 	font-size: 1.5em; 
 	line-height: 3.5em;
+	&.focus{
+		
+	}
 }
+
+
