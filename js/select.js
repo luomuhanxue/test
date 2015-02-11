@@ -139,7 +139,7 @@ SelectPage={
       case 1:
         Loading.show();
         var ajaxId = DealPost.cityList(function(d){
-
+          Loading.close();
         },function(d){
 
         });

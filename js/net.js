@@ -1,4 +1,4 @@
-﻿var server_url = "http://www.ifxme.com/Meituan/";
+﻿var server_url = "http://123.57.72.148:8080/Meituan/";
 
 DealPost = {
 
@@ -9,32 +9,21 @@ DealPost = {
 		 * @returns
 		 */
 	cityList : function(callback, failed) {
-
-		var url1 = 'city/list';
+		var url1 = server_url+'city/list';
 		var ret = $.ajax({
 			url : url1,
 			type : 'POST',
-			data : {
-
-			},
-			dataType : "json",
+			data : {},
+			dataType : "jsonp",
 			success : function(json) {
 				if (json.ret == 0) {
 					callback(json.data);
 				} else {
 					alert(json.msg);
 				}
-
 			},
 			error : function(obj, error) {
 				failed(error);
-				if (error === 'timeout') {
-
-				} else if (error === 'error') {
-
-				} else {
-
-				}
 			}
 		});
 		return ret;
@@ -59,8 +48,8 @@ DealPost = {
 	 */
 	dealList : function(city_id, deal_cate, deal_subcate, page_number,
 			page_size, callback, failed) {
-
-		var url1 = 'deal/list';
+		console.log("xxxxxx");
+		var url1 = server_url + 'deal/list';
 		var ret = $.ajax({
 			url : url1,
 			type : 'POST',
@@ -71,25 +60,16 @@ DealPost = {
 				pageNumber : page_number,
 				pageSize : page_size
 			},
-			dataType : "json",
+			dataType : "jsonp",
 			success : function(json) {
 				if (json.ret == 0) {
-
 					callback(json.data);
 				} else {
 					failed(json);
 				}
-
 			},
 			error : function(obj, error) {
 				failed(error);
-				if (error === 'timeout') {
-
-				} else if (error === 'error') {
-
-				} else {
-
-				}
 			}
 		});
 		return ret;
@@ -118,8 +98,7 @@ DealPost = {
 	 */
 	search : function(city_id, deal_title, deal_name, deal_cate, deal_subcate,
 			page_number, page_size, callback, failed) {
-
-		var url1 = 'deal/search';
+		var url1 = server_url+'deal/search';
 		var ret = $.ajax({
 			url : url1,
 			type : 'POST',
@@ -132,7 +111,7 @@ DealPost = {
 				pageNumber : page_number,
 				pageSize : page_size
 			},
-			dataType : "json",
+			dataType : "jsonp",
 			success : function(json) {
 				if (json.ret == 0) {
 					callback(json.data);
@@ -143,45 +122,29 @@ DealPost = {
 			},
 			error : function(obj, error) {
 				failed(error);
-				if (error === 'timeout') {
-
-				} else if (error === 'error') {
-
-				} else {
-
-				}
 			}
 		});
 		return ret;
 	},
 
 	detail : function(deal_id, callback, failed) {
-
-		var url1 = 'deal/detail';
+		var url1 = server_url+'deal/detail';
 		var ret = $.ajax({
 			url : url1,
 			type : 'POST',
 			data : {
 				dealId : deal_id
 			},
-			dataType : "json",
+			dataType : "jsonp",
 			success : function(json) {
 				if (json.ret == 0) {
 					callback(json.data);
 				} else {
 					failed(json);
 				}
-
 			},
 			error : function(obj, error) {
 				failed(error);
-				if (error === 'timeout') {
-
-				} else if (error === 'error') {
-
-				} else {
-
-				}
 			}
 		});
 		return ret;
@@ -189,6 +152,7 @@ DealPost = {
 
 };
 
+/*
 var cityListCallBack = function(data) {
 	for ( var i = 0; i < data.length; i++) {
 		console.warn(data[i].divisionName);// 城市名字
@@ -214,3 +178,20 @@ var failCallBack = function(json) {
  DealPost.search('maanshan', null, null, null, null, 1, 20,
  listCallBack,failCallBack);
  DealPost.detail(10774543, objCallBack, failCallBack);
+*/
+var listCallBack = function(data) {
+	console.log(data.length);
+	for(key in data){
+		console.log(key);
+	}
+	for ( var i = 0; i < data.length; i++) {
+		console.warn(data[i].dealName);// 商品名字
+	}
+};
+var failCallBack = function(json) {
+	console.error(json.msg);// 错误信息
+};
+
+DealPost.dealList('shanghai', null, null, 1, 120, listCallBack, failCallBack);
+
+console.log("aaaaxx");
