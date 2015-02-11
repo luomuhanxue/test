@@ -13,8 +13,8 @@ Page = {
 	},
 	anim_end : function(page,into_or_out){
 		if (into_or_out=='into') {
-			this.enter();
 			KeyEventDispatcher.registerKeyDownEvent(this);
+			this.enter();
 		}else{
 
 		};

@@ -1,0 +1,74 @@
+					<div class="list-item">
+						<div class="border">
+							<img src="img/101.jpg" alt="">
+							<div class="info">
+								<span>罗曼蒂克鲜花店香水白百合</span>
+							</div>
+							<div class="price">
+								<span class='price-unit'>￥</span><span class="price-value">128</span>
+								<del class='del-price'><span>门店价</span><span>￥258</span></del>
+							</div>
+						</div>
+					</div><!--
+				 --><div class="list-item">
+						<div class="border">
+							<img src="img/101.jpg" alt="">
+							<div class="info">
+								<span>【中央大街】家有酒店</span>
+							</div>
+							<div class="price">
+								<span>￥</span><span>128</span>
+								<del><span>门店价</span><span>￥258</span></del>
+								<br>
+								<span>仅售42元！价值100元的电影票1张，可观看2D/3D，提供免费WiFi。</span>
+							</div>
+						</div>
+					</div><!--
+				 --><div class="list-item">
+						<div class="border">
+							<img src="img/101.jpg" alt="">
+							<div class="info">
+								<span>【中央大街】家有酒店</span>
+							</div>
+							<div class="price">
+								<span>￥</span><span>128</span><span>新客立减</span>
+								<del><span>门店价</span><span>￥258</span></del>
+							</div>
+						</div>
+					</div><!--
+				 --><br><div class="list-item">
+						<div class="border">
+							<img src="img/101.jpg" alt="">
+							<div class="info">
+								<span>【中央大街】家有酒店</span>
+							</div>
+							<div class="price">
+								<span>￥</span><span>128</span><span>新客立减</span>
+								<del><span>门店价</span><span>￥258</span></del>
+							</div>
+						</div>
+					</div><!--
+				 --><div class="list-item">
+						<div class="border">
+							<img src="img/101.jpg" alt="">
+							<div class="info">
+								<span>【中央大街】家有酒店</span>
+							</div>
+							<div class="price">
+								<span>￥</span><span>128</span><span>新客立减</span>
+								<del><span>门店价</span><span>￥258</span></del>
+							</div>
+						</div>
+					</div><!--
+				--><div class="list-item">
+						<div class="border">
+							<img src="img/101.jpg" alt="">
+							<div class="info">
+								<span>【中央大街】家有酒店</span>
+							</div>
+							<div class="price">
+								<span>￥</span><span>128</span><span>新客立减</span>
+								<del><span>门店价</span><span>￥258</span></del>
+							</div>
+						</div>
+					</div>

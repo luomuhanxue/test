@@ -1,9 +1,19 @@
 
 ListPage={
 	header_controls:null,
+	list_gallery:null,
+	city_code:null,
+	cate_id:null,
 	items_controls:[],
+	items_divs:[],
 	items_line_count:3,
-	select_item:null,
+	select_item:null,	//焦点
+	list_data:null,		//缓存获取的数据
+	is_update:false,
+	start_idx:0,		//起始idx
+	page_size:6,		//页面条数
+	now_idx:1,		//当前的数据页面
+	all_count:0,	//总条数
 	init:function(pageInto,pageOut,response){
 		//屏幕自适应
 	  	var that = this;
@@ -39,21 +49,160 @@ ListPage={
 			item.z_focus = focus;item.z_unfocus = unfocus;item.onmouseover = mouseover;item.onclick = click;
 		});
 		var content = $(page.find(".content")[0]);
-		var items = content.find(".list-item");
-		var len = items.length;
-		for(var i = 0; i < len; ++i){
-			var item = items[i];
-			var border = $(item).find(".border")[0];
-			border.z_idx = i;border.z_group = 2;
-			border.z_focus = focus;border.z_unfocus=unfocus;border.onmouseover=mouseover;border.onclick=click;
-			this.items_controls[i] = border;
-		}
+		this.list_gallery = $(content).find('.list-gallery')[0];
+		// var items = content.find(".list-item");
+		// var len = items.length;
+		// for(var i = 0; i < len; ++i){
+		// 	var item = items[i];
+		// 	var border = $(item).find(".border")[0];
+		// 	border.z_idx = i;border.z_group = 2;
+		// 	border.z_focus = focus;border.z_unfocus=unfocus;border.onmouseover=mouseover;border.onclick=click;
+		// 	this.items_controls[i] = border;
+		// }
 	},
 	enter:function(){
-
+		this.createList();
 	},
 	out:function(){
-
+		this.clear();
+	},
+	setData:function(data,city_code,cate_id,count){
+		var len = data.length;
+		var s = this.start_idx;
+		this.city_code = city_code;
+		this.cate_id = cate_id;
+		this.all_count = count;
+		this.list_data = [];
+		for(var i = 0;i < len; ++i){
+			this.list_data[s] = {name:data[i].dealName,src:data[i].dealImg,price:data[i].price,value:data[i].value,id:data[i].dealId};
+			++s;
+		}
+		is_update = true;
+	},
+	requestNextPage:function () {
+		var len = this.list_data.length;
+		var next_idx = this.now_idx+1;
+		var count = next_idx*6;
+		if(count<=len){	//小于缓存长度  直接更新
+			this.now_idx++;
+			this.updateList();
+		}else{
+			if(len==this.all_count){//数据全部加载	直接更新
+				this.now_idx++;
+				this.updateList();
+			}else{	//拉取数据
+				var that = this;
+				var start_pos = this.now_idx*6;
+				Loading.show();
+				//alert(this.city_code+' '+this.cate_id+' '+start_pos);
+				var ajaxId = DealPost.dealList(this.city_code, this.cate_id, null, start_pos, 6, function(data,count){
+				    that.appendData(data);
+				    Loading.close();
+				}, function(error){
+					Loading.close();
+				});
+				Loading.registerAjaxId(ajaxId);
+			}
+		}
+	},
+	appendData:function (data) {	//获取回来数据 增加
+		var len = data.length;
+		var s = this.now_idx*this.page_size;
+		for(var i = 0;i < len; ++i){
+			this.list_data[s] = {name:data[i].dealName,src:data[i].dealImg,price:data[i].price,value:data[i].value,id:data[i].dealId};
+			++s;
+		}
+		this.now_idx++;
+		//更新界面
+		this.updateList();
+	},
+	updateList:function() {		//刷新当前页的数据
+		var s = (this.now_idx-1)*this.page_size;
+		for(var i = 0; s < 6;++i,++s){
+			if(s < this.all_count){
+				this.items_divs[i].style.display = 'block';
+				this.updateItem(this.list_data[s],i);
+			}else{	//超出项隐藏
+				this.items_divs[i].style.display = 'none';
+			}
+		}
+	},
+	updateItem:function(info,idx){	//刷新listitem数据
+		var border = this.items_controls[idx];
+		var img_html = '<img src="'+info.src+'">';
+		var name_html = '<div class="info"><span>'+info.name+'</span></div>';
+		var price_html = '<div class="price"><span class="price-unit">￥</span><span class="price-value">'+info.price+'</span><del class="del-price"><span>门店价</span><span>￥'+info.value+'</span></del></div>';
+    	border.innerHTML = img_html+name_html+price_html;
+	},
+	createList:function(){
+		if (!is_update) return;
+		this.list_gallery.innerHTML='';
+		this.items_controls = [];
+		for(var i = 0;i < 6; ++i){
+			var div = this.creatItem(this.list_data[i],i);
+			if(this.list_data[i]==null){
+				div.style.display = 'none';	//不足6个时候 隐藏
+			}
+			this.list_gallery.appendChild(div);
+			this.items_divs[i] = div;
+			if(i==2){
+				var br = document.createElement("br");
+				this.list_gallery.appendChild(br);
+			}
+		}
+		if(this.select_item){this.select_item.z_unfocus();}
+		this.select_item = this.items_controls[0];
+		this.select_item.z_focus();
+	},
+	creatItem:function(info,idx){	//更新
+/*
+<div class="list-item">
+	<div class="border">
+		<img src="img/101.jpg" alt="">
+		<div class="info">
+			<span>罗曼蒂克鲜花店香水白百合</span>
+		</div>
+		<div class="price">
+			<span class='price-unit'>￥</span><span class="price-value">128</span>
+			<del class='del-price'><span>门店价</span><span>￥258</span></del>
+		</div>
+	</div>
+</div>*/
+		var that = this;
+		var focus = function(){
+			this.classList.add("btn-focus");
+		};
+		var unfocus = function(){
+			this.classList.remove("btn-focus");
+		};
+		var mouseover = function(){
+			if (that.select_item) {
+				that.select_item.z_unfocus();
+			};
+			if(this.z_group===1){
+				that.select_item = this;
+			}else{
+				that.select_item = this;
+			}
+			that.select_item.z_focus();
+		};
+		var click = function(){
+			that.clickById(this.z_idx,this.z_group);
+		};
+		var img_html = '<img src="'+info.src+'">';
+		var name_html = '<div class="info"><span>'+info.name+'</span></div>';
+		var price_html = '<div class="price"><span class="price-unit">￥</span><span class="price-value">'+info.price+'</span><del class="del-price"><span>门店价</span><span>￥'+info.value+'</span></del></div>';
+		var div = document.createElement("div");
+    	div.classList.add("list-item");
+    	var border = document.createElement("div");
+    	border.classList.add("border");
+    	border.innerHTML = img_html+name_html+price_html;
+    	border.z_idx = idx;border.z_group = 2;
+		border.z_focus = focus;border.z_unfocus=unfocus;border.onmouseover=mouseover;border.onclick=click;
+		this.items_controls[idx] = border;
+    	div.appendChild(border);
+    	return div;
+   		//div.innerHTML = ;
 	},
 	clickById:function(idx,group){
 		if (group==1) {
@@ -65,7 +214,7 @@ ListPage={
 					alert("last click!!!!");
 					return;
 				case 2:
-					alert("next click!!!!");
+					this.requestNextPage();
 					return;
 			}
 		}else{
@@ -126,6 +275,16 @@ ListPage={
 		  	history.back();
 		    return;
 		}
+	},
+	clear:function(){
+		this.items_controls=[];
+		this.items_divs=[];
+		this.select_item=null;
+		this.list_data=null;	 //缓存获取的数据
+		this.is_update=false;
+		this.start_idx=0; //起始idx
+		this.page_size=6; //页面条数
+		this.now_idx=1; //当前的数据页面
 	}
 };
 

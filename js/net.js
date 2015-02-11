@@ -1,4 +1,5 @@
 ﻿var server_url = "http://123.57.72.148:8080/Meituan/";
+//var server_url = "http://www.ifxme.com:8080/Meituan/";
 
 DealPost = {
 
@@ -28,7 +29,27 @@ DealPost = {
 		});
 		return ret;
 	},
-
+	//根据城市分来获取城市
+	cateList : function(city_id,callback, failed) {
+		var url1 = server_url+'deal/cateList';
+		var ret = $.ajax({
+			url : url1,
+			type : 'POST',
+			data : {cityId:city_id},
+			dataType : "jsonp",
+			success : function(json) {
+				if (json.ret == 0) {
+					callback(json.data);
+				} else {
+					alert(json.msg);
+				}
+			},
+			error : function(obj, error) {
+				failed(error);
+			}
+		});
+		return ret;
+	},
 	/**
 	 * 获取团购列表
 	 * 
@@ -48,7 +69,6 @@ DealPost = {
 	 */
 	dealList : function(city_id, deal_cate, deal_subcate, page_number,
 			page_size, callback, failed) {
-		console.log("xxxxxx");
 		var url1 = server_url + 'deal/list';
 		var ret = $.ajax({
 			url : url1,
@@ -63,7 +83,7 @@ DealPost = {
 			dataType : "jsonp",
 			success : function(json) {
 				if (json.ret == 0) {
-					callback(json.data);
+					callback(json.data,json.count);
 				} else {
 					failed(json);
 				}
@@ -178,7 +198,7 @@ var failCallBack = function(json) {
  DealPost.search('maanshan', null, null, null, null, 1, 20,
  listCallBack,failCallBack);
  DealPost.detail(10774543, objCallBack, failCallBack);
-*/
+
 var listCallBack = function(data) {
 	console.log(data.length);
 	for(key in data){
@@ -195,3 +215,4 @@ var failCallBack = function(json) {
 DealPost.dealList('shanghai', null, null, 1, 120, listCallBack, failCallBack);
 
 console.log("aaaaxx");
+*/
