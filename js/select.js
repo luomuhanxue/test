@@ -44,7 +44,7 @@ SelectPage={
       this.classList.remove("select-anim");
     };
     city.onclick = function(){
-      that.clickById(this.z_itemId);
+      that.clickById(this.z_itemId,'');
     };
     city.onmouseover = function(){
       if (that.focus_item) {that.focus_item.zunfocus();};
@@ -115,7 +115,7 @@ SelectPage={
     for(; i < len; ++i){
       var temp = items[i];
       var div = this.getItem(temp.name,temp.style,temp.img);
-      this.controls[i] = div;div.z_idx = i;div.z_itemId = temp.code;
+      this.controls[i] = div;div.z_idx = i;div.z_itemId = temp.code;div.z_name = temp.name;
       this.select_layer.appendChild(div);
       if (i == 3) {
         var br = document.createElement("br");
@@ -123,7 +123,7 @@ SelectPage={
       };
     }
     var div = this.getItem("关于","about","img/meishi.png");
-    this.controls[i] = div;div.z_idx = i;div.z_itemId = 'about';
+    this.controls[i] = div;div.z_idx = i;div.z_itemId = 'about';div.z_name='关于';
     this.select_layer.appendChild(div);
     if(this.focus_item)this.focus_item.zunfocus();
     this.focus_item = this.controls[0];
@@ -137,7 +137,7 @@ SelectPage={
       that.focus_item.zfocus();
     };
     var click = function(){
-      that.clickById(this.z_itemId);
+      that.clickById(this.z_itemId,this.z_name);
     };
     var zfocus = function(){
       this.classList.add("select-focus");
@@ -199,7 +199,7 @@ SelectPage={
         };
         return;
       case KeyCode.enter:
-        this.clickById(z_itemId);
+        this.clickById(z_itemId,this.focus_item.z_name);
         return;
       case KeyCode.back1:
       case KeyCode.back2:
@@ -207,7 +207,7 @@ SelectPage={
     }
     //this.super.onkeydown(keycode);  //调用父类的键盘处理事件
   },
-  clickById:function(idx){
+  clickById:function(idx,title){
     if(idx=='city'){  //跳转到城市选择页面
       var self_page = document.querySelector(".in." + Mobilebone.classPage);
       var city_page = document.querySelector("#city_page");
@@ -226,14 +226,19 @@ SelectPage={
     var that = this;
     Loading.show();
     var ajaxId = DealPost.dealList(this.city_code, idx, null, 1, 6, function(data,count){
-        console.log(data.length+"  "+count);
-        ListPage.setData(data,that.city_code,idx,count);
+        //console.log(data.length+"  "+count);
+        if (data.length===0) {
+          console.log("data error!!!!");
+          Loading.close();
+          return;
+        };
+        ListPage.setData(title,data,that.city_code,idx,count);
         var self_page = document.querySelector(".in." + Mobilebone.classPage);
         var city_page = document.querySelector("#list_page");
         var page_in = Mobilebone.createPage(city_page);
         Loading.close();
     }, function(error){
-
+        Loading.close();
     });
     Loading.registerAjaxId(ajaxId);
   },

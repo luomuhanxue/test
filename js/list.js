@@ -1,26 +1,49 @@
 
+//var price_html = '<div class="price"><span class="price-unit">￥</span>
+//<span class="price-value">'+info.price+'</span><del class="del-price">
+//<span>门店价</span><span>￥'+info.value+'</span></del></div>';
+
+function ListItem(item){
+	var root = $(item);
+	this.img = root.find('img')[0];
+	this.name = root.find('.info>span')[0];
+	var price_div = $(root.find('.price')[0]);
+	this.price = price_div.find('.price-value')[0];
+	this.value = price_div.find('del>.del-value')[0];
+}
+ListItem.prototype.update=function(info){
+	this.img.src = info.src;
+	this.name.innerText = info.name;
+	this.price.innerText = info.price;
+	this.value.innerText = '￥'+info.value;
+}
+
 ListPage={
-	header_controls:null,
-	list_gallery:null,
-	city_code:null,
-	cate_id:null,
-	items_controls:[],
-	items_divs:[],
-	items_line_count:3,
-	select_item:null,	//焦点
+	title:null,				//标题元素
+	title_name:null,		//标题文字
+	header_controls:null,	//返回 上一页 下一页
+	list_gallery:null,		//添加item层
+	city_code:null,			//城市代码
+	cate_id:null,			//分类的id
+	items_controls:[],		//item外层div		控制显示不显示
+	items_divs:[],			//item焦点border div 控制焦点
+	items_line_count:3,		//每行3个
+	select_item:null,	//当前焦点的元素
 	list_data:null,		//缓存获取的数据
-	is_update:false,
+	is_update:false,	//首页进入创建列表的表示
 	start_idx:0,		//起始idx
 	page_size:6,		//页面条数
 	now_idx:1,		//当前的数据页面
 	all_count:0,	//总条数
+	all_pages:0,	//总页数
+	show_count:0,	//当前显示的长度 1~6 不足6个 移动焦点根据此长度来判断
 	init:function(pageInto,pageOut,response){
 		//屏幕自适应
 	  	var that = this;
 	  	//转化控件
 	  	var page = $('#list_page');
 	  	var head = page.find("#list-head");
-	  	var title = head.find("#list-title");
+	  	this.title = head.find("#list-title")[0];
 	  	var back = head.find(".back")[0];	back.z_idx = 0; back.z_group = 1; 
 	  	var btn_last = head.find("#up-btn")[0];	btn_last.z_idx=1;	btn_last.z_group = 1;	
 	  	var btn_next = head.find("#down-btn")[0];	btn_next.z_idx = 2;	btn_next.z_group = 1;
@@ -50,15 +73,6 @@ ListPage={
 		});
 		var content = $(page.find(".content")[0]);
 		this.list_gallery = $(content).find('.list-gallery')[0];
-		// var items = content.find(".list-item");
-		// var len = items.length;
-		// for(var i = 0; i < len; ++i){
-		// 	var item = items[i];
-		// 	var border = $(item).find(".border")[0];
-		// 	border.z_idx = i;border.z_group = 2;
-		// 	border.z_focus = focus;border.z_unfocus=unfocus;border.onmouseover=mouseover;border.onclick=click;
-		// 	this.items_controls[i] = border;
-		// }
 	},
 	enter:function(){
 		this.createList();
@@ -66,18 +80,27 @@ ListPage={
 	out:function(){
 		this.clear();
 	},
-	setData:function(data,city_code,cate_id,count){
+	setData:function(title,data,city_code,cate_id,count){
+		this.title_name = title;
 		var len = data.length;
 		var s = this.start_idx;
 		this.city_code = city_code;
 		this.cate_id = cate_id;
 		this.all_count = count;
+		this.all_pages = Math.ceil(count/this.page_size);
 		this.list_data = [];
 		for(var i = 0;i < len; ++i){
 			this.list_data[s] = {name:data[i].dealName,src:data[i].dealImg,price:data[i].price,value:data[i].value,id:data[i].dealId};
 			++s;
 		}
 		is_update = true;
+	},
+	requestLastPage:function () {
+		var next_idx =  this.now_idx-1;
+		if (next_idx>=0) {
+			--this.now_idx;
+			this.updateList();
+		};
 	},
 	requestNextPage:function () {
 		var len = this.list_data.length;
@@ -88,13 +111,16 @@ ListPage={
 			this.updateList();
 		}else{
 			if(len==this.all_count){//数据全部加载	直接更新
-				this.now_idx++;
-				this.updateList();
+				if(this.now_idx<this.all_pages){
+					this.now_idx++;
+					this.updateList();
+				}
 			}else{	//拉取数据
 				var that = this;
-				var start_pos = this.now_idx*6;
+				var start_pos = this.now_idx+1;
 				Loading.show();
 				//alert(this.city_code+' '+this.cate_id+' '+start_pos);
+				//console.log("requset for "+this.city_code+' cate_id:'+this.cate_id+'  s:'+start_pos+' len:'+6);
 				var ajaxId = DealPost.dealList(this.city_code, this.cate_id, null, start_pos, 6, function(data,count){
 				    that.appendData(data);
 				    Loading.close();
@@ -108,20 +134,28 @@ ListPage={
 	appendData:function (data) {	//获取回来数据 增加
 		var len = data.length;
 		var s = this.now_idx*this.page_size;
+		console.log(s+' updating...'+this.list_data.length+" len "+len);
 		for(var i = 0;i < len; ++i){
 			this.list_data[s] = {name:data[i].dealName,src:data[i].dealImg,price:data[i].price,value:data[i].value,id:data[i].dealId};
 			++s;
+			console.log(i+": add---> "+s+"    "+this.list_data.length);
 		}
 		this.now_idx++;
+		console.log('update .......'+this.list_data.length);
 		//更新界面
+		for(var i = 0; i<this.list_data.length;++i){
+			console.log(this.list_data[i]);
+		}
 		this.updateList();
 	},
 	updateList:function() {		//刷新当前页的数据
 		var s = (this.now_idx-1)*this.page_size;
-		for(var i = 0; s < 6;++i,++s){
+		this.show_count = 0;
+		for(var i = 0; i < 6;++i,++s){
 			if(s < this.all_count){
-				this.items_divs[i].style.display = 'block';
-				this.updateItem(this.list_data[s],i);
+				this.items_divs[i].style.display = 'inline-block';
+				this.items_controls[i].z_item.update(this.list_data[s]);
+				this.show_count++;
 			}else{	//超出项隐藏
 				this.items_divs[i].style.display = 'none';
 			}
@@ -129,19 +163,23 @@ ListPage={
 	},
 	updateItem:function(info,idx){	//刷新listitem数据
 		var border = this.items_controls[idx];
-		var img_html = '<img src="'+info.src+'">';
-		var name_html = '<div class="info"><span>'+info.name+'</span></div>';
-		var price_html = '<div class="price"><span class="price-unit">￥</span><span class="price-value">'+info.price+'</span><del class="del-price"><span>门店价</span><span>￥'+info.value+'</span></del></div>';
-    	border.innerHTML = img_html+name_html+price_html;
+		border.z_item.update(info);
+		//var img_html = '<img src="'+info.src+'">';
+		//var name_html = '<div class="info"><span>'+info.name+'</span></div>';
+		//var price_html = '<div class="price"><span class="price-unit">￥</span><span class="price-value">'+info.price+'</span><del class="del-price"><span>门店价</span><span>￥'+info.value+'</span></del></div>';
+    	//border.innerHTML = img_html+name_html+price_html;
 	},
 	createList:function(){
 		if (!is_update) return;
+		this.title.innerText = this.title_name;
 		this.list_gallery.innerHTML='';
 		this.items_controls = [];
+		this.show_count = 6;
 		for(var i = 0;i < 6; ++i){
 			var div = this.creatItem(this.list_data[i],i);
 			if(this.list_data[i]==null){
 				div.style.display = 'none';	//不足6个时候 隐藏
+				this.this.show_count--;
 			}
 			this.list_gallery.appendChild(div);
 			this.items_divs[i] = div;
@@ -164,7 +202,7 @@ ListPage={
 		</div>
 		<div class="price">
 			<span class='price-unit'>￥</span><span class="price-value">128</span>
-			<del class='del-price'><span>门店价</span><span>￥258</span></del>
+			<del class='del-price'><span>门店价</span><span class="del-value">￥258</span></del>
 		</div>
 	</div>
 </div>*/
@@ -191,7 +229,7 @@ ListPage={
 		};
 		var img_html = '<img src="'+info.src+'">';
 		var name_html = '<div class="info"><span>'+info.name+'</span></div>';
-		var price_html = '<div class="price"><span class="price-unit">￥</span><span class="price-value">'+info.price+'</span><del class="del-price"><span>门店价</span><span>￥'+info.value+'</span></del></div>';
+		var price_html = '<div class="price"><span class="price-unit">￥</span><span class="price-value">'+info.price+'</span><del class="del-price"><span>门店价</span><span class="del-value">￥'+info.value+'</span></del></div>';
 		var div = document.createElement("div");
     	div.classList.add("list-item");
     	var border = document.createElement("div");
@@ -201,8 +239,9 @@ ListPage={
 		border.z_focus = focus;border.z_unfocus=unfocus;border.onmouseover=mouseover;border.onclick=click;
 		this.items_controls[idx] = border;
     	div.appendChild(border);
+    	var zitem = new ListItem(border);
+    	border.z_item = zitem;
     	return div;
-   		//div.innerHTML = ;
 	},
 	clickById:function(idx,group){
 		if (group==1) {
@@ -211,14 +250,15 @@ ListPage={
 					history.back();
 					return;
 				case 1:
-					alert("last click!!!!");
+					this.requestLastPage();
 					return;
 				case 2:
 					this.requestNextPage();
 					return;
 			}
 		}else{
-			alert("item"+idx+" click!!!!");
+			var s_idx = (this.now_idx-1)*this.page_size+idx;
+			console.log(this.list_data[s_idx]);
 		};
 	},
 	onkeydown:function(keycode){
