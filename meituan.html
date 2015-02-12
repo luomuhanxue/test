@@ -20,7 +20,7 @@
 			<div id="select-header">
 <!-- 				<img class="header-title-bg" src="img/header_bg.png"></img>
  -->				<img class="header-icon" src="img/icon.png"></img><!--
-		 	 --><div id="city-select"><span>北京北京北京&nbsp;></span><!--<img src="img/down_icon.png"></img>--></div>
+		 	 --><div id="city-select"><span>北京北京北京&nbsp;&lsaquo;</span><!--<img src="img/down_icon.png"></img>--></div>
 		 	</div>
 		</div>
 		<div class="content">
@@ -73,10 +73,65 @@
 <!--------------------这个是详情页面------------------------>
 	<div id="detail_page" class="page out" data-root="DetailPage" data-onpagefirstinto="init" data-animationstart="anim_start" data-animationend="anim_end">
 		<div class="header">
-
+			<div id="detail-head">
+			    <strong>
+			        <div id='detail-title'>详情</div>
+			    </strong>
+			    <span id="id_back" class='back'>&nbsp;&lsaquo;&nbsp;</span>
+			</div>
 	 	</div>
-		<div class="content">
-
+		<div id="deal_content" class="detail_content bg_content">
+		    <div class="deal_intro">
+		        <!-- 放置图片 -->
+		        <div class="deal_left">
+		            <img id="id_deal_pic" src="http://p1.meituan.net/460.280/deal/53975525d8f0e620b9478856c26efac4227179.jpg">
+		        </div>
+		        <!-- 简介 -->
+		        <div class="deal_right">
+		            <div class="deal_title">
+		                <span id="id_deal_title" class="price_big price_bold">双人电影票，2D/3D可兑</span>
+		            </div>
+		            <div class="deal_price">
+		                <span class="price_small price_bold price_color_dark_gray">团购价：</span><span
+		                    class="price_small price_color_orange price_bold">￥</span><span id="id_deal_price" class="price_big price_color_orange price_bold">128</span> <span
+		                    id ="id_rebate" class="price_small price_color_orange price_bold">9折</span>
+		                <del><span id="id_deal_value" class="price_small price_color_gray price_bold">￥258</span></del>
+		            </div>
+		            <div class="deal_sell">
+		                <span class="price_small price_bold price_color_dark_gray">已售：</span><span id="id_sale_num"
+		                    class="price_small price_color_orange price_bold">100000</span>
+		            </div>
+		            <div class="deal_shop_info">
+		                <span id="id_shop_name" class="price_small  price_bold price_color_dark_gray">商家：黄记煌三只焖锅（新一城店）</span>
+		            </div>
+		            <div class="deal_shop_tel">
+		                <span class="price_small  price_bold price_color_dark_gray" >电话：</span><span id="id_deal_shop_tel" class="price_small  price_bold price_color_orange">0555-5933333</span>
+		            </div>
+		            <div class="deal_tag">
+		                <span class="price_small price_bold price_color_dark_gray">服务承诺&nbsp;</span> <img src="img/suishi.png"><span
+		                    class="price_small price_bold price_color_gray"> 随时退&nbsp;&nbsp;</span><img src="img/guoqi.png"><span
+		                    class="price_small price_bold price_color_gray"> 过期退&nbsp;&nbsp;</span><img
+		                    src="img/jisu.png"><span class="price_small price_bold price_color_gray"> 急速退&nbsp;&nbsp;</span><img
+		                    src="img/pingjia.png"><span class="price_small price_bold price_color_gray"> 真实评价&nbsp;&nbsp;</span>
+		            </div>
+		        </div>
+		    </div>
+		    <!-- 详细 -->
+		    <div class="deal_detail">
+		        <div class="deal_line"></div>
+		        <div class="deal_info">
+		            <span id="id_deal_info" class="price_small price_bold">仅售50元！最高价值140元的亿星影城双人电影票，2D/3D可兑，限价片需到店补齐差价~~</span>
+		            <br>
+		            <br>
+		            <span class="price_small price_bold">有效期 </span><span id="id_youxiao"
+		                class="price_small price_color_orange price_bold">截止到2015.05.25</span>
+		        </div>
+		    </div>
+		    <!-- 扩展 -->
+<!--		    <div class="deal_more price_small price_bold">
+		        <div class="deal_text " id="id_deal_text"></div>
+		        <div class="deal_more_img " id="id_deal_more_img"></div>
+		    </div> -->
 		</div>
 	</div>
 	<div id="about_page" class="page out" data-root="AboutPage" data-onpagefirstinto="init" data-animationstart="anim_start" data-animationend="anim_end">

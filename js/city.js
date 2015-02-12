@@ -193,7 +193,7 @@ CityPage={
   clickedById:function(group,idx){
     switch(group){
       case 0:
-        history.back();
+        this.back();
         return;
       case 1:
         this.kindclicked(idx);
@@ -311,7 +311,7 @@ CityPage={
         return;
       case KeyCode.back1:
       case KeyCode.back2:
-        history.back();
+        this.back();
         return;
     }
   }

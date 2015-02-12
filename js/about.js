@@ -15,9 +15,10 @@ AboutPage={
     back_btn.onmouseover = function(){
       this.z_focus();
     };*/
+    var that = this;
     back_btn.classList.add('btn-focus');
     back_btn.onclick = function(){
-    	history.back();
+    	that.back();
     };
   },
   enter:function(){
@@ -31,7 +32,7 @@ AboutPage={
   		case KeyCode.enter:
   		case KeyCode.back1:
   		case KeyCode.back2:
-  			history.back();
+  			this.back();
   		  	return;
   	}
   }

@@ -37,6 +37,7 @@ ListPage={
 	all_count:0,	//总条数
 	all_pages:0,	//总页数
 	show_count:0,	//当前显示的长度 1~6 不足6个 移动焦点根据此长度来判断
+	is_clear:true,	//离开界面是否清数据
 	init:function(pageInto,pageOut,response){
 		//屏幕自适应
 	  	var that = this;
@@ -75,10 +76,14 @@ ListPage={
 		this.list_gallery = $(content).find('.list-gallery')[0];
 	},
 	enter:function(){
-		this.createList();
+		this.is_clear = true;
+		if(this.is_update)
+			this.createList();
 	},
 	out:function(){
-		this.clear();
+		this.is_update = false;
+		if(this.is_clear)
+			this.clear();
 	},
 	setData:function(title,data,city_code,cate_id,count){
 		this.title_name = title;
@@ -93,7 +98,7 @@ ListPage={
 			this.list_data[s] = {name:data[i].dealName,src:data[i].dealImg,price:data[i].price,value:data[i].value,id:data[i].dealId};
 			++s;
 		}
-		is_update = true;
+		this.is_update = true;
 	},
 	requestLastPage:function () {
 		var next_idx =  this.now_idx-1;
@@ -134,18 +139,12 @@ ListPage={
 	appendData:function (data) {	//获取回来数据 增加
 		var len = data.length;
 		var s = this.now_idx*this.page_size;
-		console.log(s+' updating...'+this.list_data.length+" len "+len);
 		for(var i = 0;i < len; ++i){
 			this.list_data[s] = {name:data[i].dealName,src:data[i].dealImg,price:data[i].price,value:data[i].value,id:data[i].dealId};
 			++s;
-			console.log(i+": add---> "+s+"    "+this.list_data.length);
 		}
 		this.now_idx++;
-		console.log('update .......'+this.list_data.length);
 		//更新界面
-		for(var i = 0; i<this.list_data.length;++i){
-			console.log(this.list_data[i]);
-		}
 		this.updateList();
 	},
 	updateList:function() {		//刷新当前页的数据
@@ -170,7 +169,6 @@ ListPage={
     	//border.innerHTML = img_html+name_html+price_html;
 	},
 	createList:function(){
-		if (!is_update) return;
 		this.title.innerText = this.title_name;
 		this.list_gallery.innerHTML='';
 		this.items_controls = [];
@@ -247,7 +245,7 @@ ListPage={
 		if (group==1) {
 			switch(idx){
 				case 0:
-					history.back();
+					this.back();
 					return;
 				case 1:
 					this.requestLastPage();
@@ -258,7 +256,22 @@ ListPage={
 			}
 		}else{
 			var s_idx = (this.now_idx-1)*this.page_size+idx;
-			console.log(this.list_data[s_idx]);
+			//console.log(this.list_data[s_idx]);
+			var city_page = document.querySelector("#detail_page");
+			Loading.show();
+			var that = this;
+			var ajaxId = DealPost.detail(this.list_data[s_idx].id,function(data){
+				Loading.close();
+			    DetailPage.setData(data[0]);
+			    that.is_clear=false;
+			    setTimeout(function(){
+			      Mobilebone.createPage(city_page);
+			    },500);
+			},function(msg){
+				Loading.close();
+				//console.log(msg);
+			});
+			Loading.registerAjaxId(ajaxId);
 		};
 	},
 	onkeydown:function(keycode){
@@ -312,11 +325,12 @@ ListPage={
 		  	return;
 		  case KeyCode.back1:
 		  case KeyCode.back2:
-		  	history.back();
+		  	this.back();
 		    return;
 		}
 	},
 	clear:function(){
+		//console.log('clear----------------------------');
 		this.items_controls=[];
 		this.items_divs=[];
 		this.select_item=null;

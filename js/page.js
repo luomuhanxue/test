@@ -1,11 +1,12 @@
 
 Page = {
+	isback:false,
 	init:function(){
 		alert("init error!!!!!!");
 	},
 	anim_start : function(page,into_or_out){
 		if (into_or_out=='into') {
-			
+			this.isback = false;
 		}else{
 			this.out();
 			KeyEventDispatcher.registerKeyDownEvent(null);
@@ -16,7 +17,7 @@ Page = {
 			KeyEventDispatcher.registerKeyDownEvent(this);
 			this.enter();
 		}else{
-
+			this.isback=false;
 		};
 	},
 	onkeydown : function(keycode){
@@ -28,7 +29,10 @@ Page = {
 		}
 	},
 	back : function(){
-		history.back();
+		if(!this.isback){
+			this.isback = true;
+			history.back();
+		}
 	},
 	enter : function(){alert("enter error!!!!!!");},
 	out : function(){alert("out error!!!!!!");}

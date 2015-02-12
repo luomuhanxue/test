@@ -228,15 +228,16 @@ SelectPage={
     var ajaxId = DealPost.dealList(this.city_code, idx, null, 1, 6, function(data,count){
         //console.log(data.length+"  "+count);
         if (data.length===0) {
-          console.log("data error!!!!");
           Loading.close();
           return;
         };
+        Loading.close();
         ListPage.setData(title,data,that.city_code,idx,count);
         var self_page = document.querySelector(".in." + Mobilebone.classPage);
         var city_page = document.querySelector("#list_page");
-        var page_in = Mobilebone.createPage(city_page);
-        Loading.close();
+        setTimeout(function(){
+          Mobilebone.createPage(city_page);
+        },500);
     }, function(error){
         Loading.close();
     });
