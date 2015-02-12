@@ -84,7 +84,7 @@ SelectPage={
                       3:{name:'休闲娱乐',style:"amuse",img:"img/yule.png",code:4},
                       5:{name:"商品",style:"shop",img:"img/gouwu.png",code:5},
                       206:{name:"运动健身",style:"jianshen",img:"img/fuwu.png",code:206},
-                      207:{name:"摄影写真",style:"photo",img:"img/fuwu.png",code:207},
+                      207:{name:"摄影写真",style:"photo",img:"img/sheying.png",code:207},
                       208:{name:"电影",style:"film",img:"img/dianying.png",code:208},
                       209:{name:"酒店",style:"hotel",img:"img/jiudian.png",code:209},
                       217:{name:"旅游",style:"journey",img:"img/lvyou.png",code:217},
@@ -122,7 +122,7 @@ SelectPage={
         this.select_layer.appendChild(br);
       };
     }
-    var div = this.getItem("关于","about","img/meishi.png");
+    var div = this.getItem("关于","about","img/guanyu.png");
     this.controls[i] = div;div.z_idx = i;div.z_itemId = 'about';div.z_name='关于';
     this.select_layer.appendChild(div);
     if(this.focus_item)this.focus_item.zunfocus();
