@@ -1,7 +1,7 @@
 {
-    "id": "Angame.MeiTuan",
-    "version": "0.0.1",
-    "vendor": "My Company",
+    "id": "com.zk.meituan.07",
+    "version": "0.0.7",
+    "vendor": "zk",
     "type": "web",
     "main": "index.html",
     "title": "meituan",

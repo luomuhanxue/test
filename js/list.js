@@ -77,6 +77,9 @@ ListPage={
 	},
 	enter:function(){
 		this.is_clear = true;
+		this.header_controls.forEach(function(item){
+			item.z_unfocus();
+		});
 		if(this.is_update)
 			this.createList();
 	},
