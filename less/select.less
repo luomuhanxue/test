@@ -79,6 +79,11 @@
 }
 
 .select-focus{
+	animation: sbtnzoom 1s linear infinite;
+	//-moz-animation: btnzoom 1s linear infinite;
+	-webkit-animation: sbtnzoom 1s linear infinite;
+	//-o-animation: btnzoom 1s linear infinite;
+	/*
 	-moz-transform:scale(1.1);
   	-webkit-transform:scale(1.1);
   	-o-transform:scale(1.1);
@@ -87,6 +92,17 @@
 	-webkit-transition-duration: 0.5s;
 	-o-transition-duration: 0.5s;
 	transition-duration: 0.5s;
+	*/
+}
+
+@keyframes sbtnzoom{
+	from，to { transform: none; border-color: @titleColor;}
+  	50% { transform: scale(1.1);  border-color:@darkTitleColor;}
+}
+
+@-webkit-keyframes sbtnzoom{
+	from，to { -webkit-transform: none; border-color: @titleColor;}
+  	50% { -webkit-transform: scale(1.1); border-color:@darkTitleColor;}
 }
 
 .zitem(@c){

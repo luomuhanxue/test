@@ -34,6 +34,11 @@ Page = {
 			history.back();
 		}
 	},
+	exit : function(){
+	    if(window.NetCastBack){	//nc退出
+	    	window.NetCastBack();
+	    }
+	},
 	enter : function(){alert("enter error!!!!!!");},
 	out : function(){alert("out error!!!!!!");}
 };

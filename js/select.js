@@ -203,6 +203,7 @@ SelectPage={
         return;
       case KeyCode.back1:
       case KeyCode.back2:
+        this.exit();  //退出
         return;
     }
     //this.super.onkeydown(keycode);  //调用父类的键盘处理事件

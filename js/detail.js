@@ -34,7 +34,16 @@ DetailPage = {
             $("#id_deal_title").text(json.dealTitle=null?json.dealName:json.dealTitle);
             $("#id_deal_price").text(json.price=null?"":json.price);
             $("#id_sale_num").text(json.salesNum=null?"":json.salesNum);
-            $("#id_shop_name").text(json.dealSeller=null?"":json.dealSeller + "(" + json.dealAddress + ")");
+            if(json.dealSeller==null||json.dealSeller=="null"||json.dealSeller==undefined)
+            {
+                $("#id_shop_name").text("商家:" + json.dealAddress);
+            }
+            else
+            {
+            $("#id_shop_name").text("商家:"+(json.dealSeller=null?"":json.dealSeller) + "(" + json.dealAddress + ")");
+            }
+            
+            
             $("#id_deal_value").text("￥" + json.value);
 
             function html_encode(str)
