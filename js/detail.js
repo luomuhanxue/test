@@ -1,22 +1,36 @@
 DetailPage = {
     data: null,
-    pid:0,
     init: function (pageInto, pageOut, response) {
 
-        var page = $('#detail_page');
-        var head = page.find("#detail-head");
-        var title = head.find("#detail-title");
-        var back = head.find(".back")[0];
-        back.z_idx = 0;
-        back.z_group = 1;
+        //var page = $('#detail_page');
+        //var head = page.find("#detail-head");
+        //var title = head.find("#detail-title");
+        //var back = head.find(".back")[0];
+        //back.z_idx = 0;
+        //back.z_group = 1;
+    this.refreshData();
+    },
+    enter: function () {
+        this.refreshData();
+    },
+    out: function () {
+
+        $(".more_img").remove();
+
+    },
+    setData: function (json) {
+        this.data = json;
+    },
+    refreshData:function()
+    {
         if (this.data) {
             var json = this.data;//详细数据
 
-            $("#detail-title").text(json.dealName);
-            $("#id_deal_title").text(json.dealTitle);
-            $("#id_deal_price").text(json.price);
-            $("#id_sale_num").text(json.salesNum);
-            $("#id_shop_name").text(json.dealSeller + "(" + json.dealAddress + ")");
+            $("#detail-title").text(json.dealName=null?"":json.dealName);
+            $("#id_deal_title").text(json.dealTitle=null?json.dealName:json.dealTitle);
+            $("#id_deal_price").text(json.price=null?"":json.price);
+            $("#id_sale_num").text(json.salesNum=null?"":json.salesNum);
+            $("#id_shop_name").text(json.dealSeller=null?"":json.dealSeller + "(" + json.dealAddress + ")");
             $("#id_deal_value").text("￥" + json.value);
 
             function html_encode(str)
@@ -64,8 +78,6 @@ DetailPage = {
                 var picArray = json.dealMoreImg.split(",");
                 for(var i=0;i<picArray.length;i++)
                 {
-                    var morePic=$("<br><img class='more_img'src=''"+picArray[i]+"'>");
-                    //var morePic= $('').html("<img class='more_img'src=''"+picArray[i]+"'>")
                     var morePic = document.createElement("img");
                     morePic.src=picArray[i];
                     morePic.className="more_img";
@@ -73,20 +85,6 @@ DetailPage = {
                 }
             }
         }
-
-
-        $('#deal_content').tinyscrollbar();
-
-
-    },
-    enter: function () {
-
-    },
-    out: function () {
-
-    },
-    setData: function (json) {
-        this.data = json;
     },
     onkeydown: function (keycode) {
         switch(keycode)
