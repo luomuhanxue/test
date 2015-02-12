@@ -107,6 +107,7 @@ DetailPage = {
                 //console.assert("down");
                 //$("#deal_content")[0].focus();
                 break;
+            case KeyCode.enter:
             case KeyCode.back1:
             case KeyCode.back2:
                 this.back();

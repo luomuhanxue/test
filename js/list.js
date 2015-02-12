@@ -177,7 +177,7 @@ ListPage={
 			var div = this.creatItem(this.list_data[i],i);
 			if(this.list_data[i]==null){
 				div.style.display = 'none';	//不足6个时候 隐藏
-				this.this.show_count--;
+				this.show_count--;
 			}
 			this.list_gallery.appendChild(div);
 			this.items_divs[i] = div;
