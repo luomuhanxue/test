@@ -138,7 +138,6 @@ DealPost = {
 				} else {
 					failed(json);
 				}
-
 			},
 			error : function(obj, error) {
 				failed(error);

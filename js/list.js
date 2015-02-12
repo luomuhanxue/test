@@ -258,7 +258,15 @@ ListPage={
 			}
 		}else{
 			var s_idx = (this.now_idx-1)*this.page_size+idx;
-			console.log(this.list_data[s_idx]);
+			//console.log(this.list_data[s_idx]);
+			var city_page = document.querySelector("#detail_page");
+			//DealPost.dealList('shanghai',"美食",null,1,2,null,null);
+			DealPost.detail(this.list_data[s_idx].id,function(data){
+			    DetailPage.setData(data[0]);
+			    var page_in = Mobilebone.createPage(city_page);
+			},function(msg){
+				console.log(msg);
+			});
 		};
 	},
 	onkeydown:function(keycode){
