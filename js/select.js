@@ -19,6 +19,7 @@ SelectPage={
   select_layer:null,  //item 层
   history_city:null,
   kind:null,
+  kinds:null,
   init:function(pageInto,pageOut,response){
     var that = this;
     //自适应
@@ -64,21 +65,24 @@ SelectPage={
       that.getCityKind();
     },500);
   },
-  setCityData:function(name,code){
+  setCityData:function(name,code,arr){
     this.city_name = name;
     this.city_code = code;
+    this.kinds = arr;
   },
   updateCity:function(){
     this.city_btn.innerText = this.city_name+' >';
     if (this.history_city!=this.city_code) {
       this.history_city = this.city_code;
-      this.getCityKind();
+      this.updateItems(this.kinds);
+      //this.getCityKind();
     };
   },
   getCityKind:function(){ //获取城市对应的分类
     var that = this;
     Loading.show();
     var ajaxId = DealPost.cateList(this.city_code,function(data){
+      Loading.close();
       var kindCity = {2:{name:"丽人",style:"cosmetics",img:"img/liren.png",code:2},
                       4:{name:"生活服务",style:"serve",img:"img/fuwu.png",code:3},
                       3:{name:'休闲娱乐',style:"amuse",img:"img/yule.png",code:4},
@@ -91,6 +95,13 @@ SelectPage={
                       226:{name:"美食",style:"food",img:"img/meishi.png",code:226}};
       var items = [];
       var i = 0;
+      if (data.length==0) {
+        setTimeout(
+          function(){
+            Tips.show("当前城市没有团购!","确  定");
+          },200
+        );
+      };
       for(key in data){
         if(data[key].deal_cate==undefined){}
         else{
@@ -99,7 +110,6 @@ SelectPage={
         }
       }
       that.updateItems(items);
-      Loading.close();
     },function(msg){
       Loading.close();
     });

@@ -183,12 +183,59 @@ CityPage={
   itemclicked:function(idx){
     this.item_select = idx;
     var letter = cityKeyWord[this.kind_select][this.char_select];
-    var span = this.dictionary[letter][idx];
-    SelectPage.setCityData(span.innerText,span.z_code);
+    var span = this.dictionary[letter][this.item_select];
+    this.getCityData(span.z_code);
+    //history.back();
+  },
+  getCityData:function(city_code){
+    var that = this;
+    Loading.show(city_code);
+    var ajaxId = DealPost.cateList(city_code,function(data){
+      Loading.close();
+      var kindCity = {2:{name:"丽人",style:"cosmetics",img:"img/liren.png",code:2},
+                      4:{name:"生活服务",style:"serve",img:"img/fuwu.png",code:3},
+                      3:{name:'休闲娱乐',style:"amuse",img:"img/yule.png",code:4},
+                      5:{name:"商品",style:"shop",img:"img/gouwu.png",code:5},
+                      206:{name:"运动健身",style:"jianshen",img:"img/fuwu.png",code:206},
+                      207:{name:"摄影写真",style:"photo",img:"img/sheying.png",code:207},
+                      208:{name:"电影",style:"film",img:"img/dianying.png",code:208},
+                      209:{name:"酒店",style:"hotel",img:"img/jiudian.png",code:209},
+                      217:{name:"旅游",style:"journey",img:"img/lvyou.png",code:217},
+                      226:{name:"美食",style:"food",img:"img/meishi.png",code:226}};
+      var items = [];
+      var i = 0;
+      if (data.length==0) {
+        setTimeout(function(){
+            Tips.show("当前城市没有团购!","确  定");
+        },500);
+        return;
+      };
+      for(key in data){
+        if(data[key].deal_cate==undefined){}
+        else{
+          items[i] = kindCity[data[key].deal_cate_id];
+          ++i;
+        }
+      }
+      that.jump(items);
+    },function(msg){
+      Loading.close();
+      setTimeout(function(){
+        Tips.show("获取城市数据失败，请重试!","确  定");
+      },500);
+    });
+    Loading.registerAjaxId(ajaxId);
+  },
+  jump:function(kinds){
+    var letter = cityKeyWord[this.kind_select][this.char_select];
+    var span = this.dictionary[letter][this.item_select];
+    SelectPage.setCityData(span.innerText,span.z_code,kinds);
     this.history_select[0] = this.kind_select;
     this.history_select[1] = this.char_select;
     this.history_select[2] = this.item_select;
-    history.back();
+    setTimeout(function(){
+      history.back();
+    },500);
   },
   clickedById:function(group,idx){
     switch(group){
@@ -318,7 +365,3 @@ CityPage={
 };
 
 extend(CityPage,Page);
-
-
-
-

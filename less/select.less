@@ -24,10 +24,6 @@
 		border: 2px solid @titleColor;
 		border-radius:5px;
 		padding: 0.5% 1%;
-		img{
-			margin-left: 5%;
-			width: 0%;
-		}
 	}
 	//城市选择按钮动画
 	.select-anim{
@@ -96,13 +92,15 @@
 }
 
 @keyframes sbtnzoom{
-	from，to { transform: none; border-color: @titleColor;}
+	0% { transform: none; border-color: @titleColor;}
   	50% { transform: scale(1.1);  border-color:@darkTitleColor;}
+  	100% { transform: none; border-color: @titleColor;}
 }
 
 @-webkit-keyframes sbtnzoom{
-	from，to { -webkit-transform: none; border-color: @titleColor;}
-  	50% { -webkit-transform: scale(1.1); border-color:@darkTitleColor;}
+	0% { -webkit-transform: none; border-color: @titleColor;}
+  	50% { -webkit-transform: scale(1.1);  border-color:@darkTitleColor;}
+  	100% { -webkit-transform: none; border-color: @titleColor;}
 }
 
 .zitem(@c){

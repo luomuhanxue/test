@@ -2,13 +2,13 @@
 
 @titleColor:#23C8B7;
 @darkTitleColor:red;
-@foucsShadowColor:##ABFAF7;
+@foucsShadowColor:#ABFAF7;
 @bgColor:#cff;
 @price:#f55623;
 
-
+//一般按钮动画效果
 .focus-anim(){
-	-box-shadow: 0 0 15px @foucsShadowColor;
+	box-shadow: 0 0 15px @foucsShadowColor;
 	-webkit-box-shadow:0 0 15px @foucsShadowColor;
 	animation: btnzoom 1s linear infinite;
 	//-moz-animation: btnzoom 1s linear infinite;
@@ -17,11 +17,34 @@
 }
 
 @keyframes btnzoom{
-	from，to { transform: none; color: @titleColor; border-color: @titleColor;}
-  	50% { transform: scale(1.1); color: @darkTitleColor; border-color:@darkTitleColor;}
+	0% { transform: none; color: @titleColor; border-color: @titleColor;box-shadow: 0 0 15px @foucsShadowColor;}
+  	50% { transform: scale(1.1); color: @darkTitleColor; border-color:@darkTitleColor;box-shadow: 0 0 15px @darkTitleColor;}
+  	100% { transform: none; color: @titleColor; border-color: @titleColor;box-shadow: 0 0 15px @foucsShadowColor;}
 }
 
 @-webkit-keyframes btnzoom{
-	from，to { -webkit-transform: none; color: @titleColor; border-color: @titleColor;}
-  	50% { -webkit-transform: scale(1.1); color: @darkTitleColor; border-color:@darkTitleColor;}
+	0% { -webkit-transform: none; color: @titleColor; border-color: @titleColor;-webkit-box-shadow:0 0 15px @foucsShadowColor}
+  	50% { -webkit-transform: scale(1.1); color: @darkTitleColor; border-color:@darkTitleColor;-webkit-box-shadow:0 0 15px @darkTitleColor}
+	100% { -webkit-transform: none; color: @titleColor; border-color: @titleColor;-webkit-box-shadow:0 0 15px @foucsShadowColor}
+}
+
+//返回按钮的动画
+.b-focus-anim(){
+	text-shadow: 0 0 15px @foucsShadowColor;
+	animation: backbtnzoom 1s linear infinite;
+	//-moz-animation: btnzoom 1s linear infinite;
+	-webkit-animation: backbtnzoom 1s linear infinite;
+	//-o-animation: btnzoom 1s linear infinite;
+}
+
+@keyframes backbtnzoom{
+	0% { transform: none; color: @titleColor; border-color: @titleColor;text-shadow: 0 0 15px @foucsShadowColor;}
+  	50% { transform: scale(1.1); color: @darkTitleColor; border-color:@darkTitleColor;text-shadow: 0 0 15px @darkTitleColor;}
+  	100% { transform: none; color: @titleColor; border-color: @titleColor;text-shadow: 0 0 15px @foucsShadowColor;}
+}
+
+@-webkit-keyframes backbtnzoom{
+	0% { -webkit-transform: none; color: @titleColor; border-color: @titleColor;text-shadow:0 0 15px @foucsShadowColor}
+  	50% { -webkit-transform: scale(1.1); color: @darkTitleColor; border-color:@darkTitleColor;text-shadow:0 0 15px @darkTitleColor}
+	100% { -webkit-transform: none; color: @titleColor; border-color: @titleColor;text-shadow:0 0 15px @foucsShadowColor}
 }

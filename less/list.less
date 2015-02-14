@@ -46,7 +46,7 @@
 }
 
 .back.btn-focus{
-	.focus-anim();
+	.b-focus-anim();
 }
 
 //标题
@@ -55,8 +55,6 @@
 	font-size: 3em;
 	line-height: 1.8em;
 	color:@titleColor;
-    -box-shadow: 0 0 15px @foucsShadowColor;
- 	-webkit-box-shadow:0 0 15px @foucsShadowColor;
 }
 
 .head_btn(@p){
@@ -76,6 +74,20 @@
 
 #down-btn{
 	.head_btn(88%);
+}
+
+//页码
+#page-idx{
+	position: absolute;
+	color: grey;
+	font-size: 1.4em;
+	width: 100%;
+	border-radius:5px;
+	top:100%;
+	padding: 0.5% 1.2%;
+	text-align: center;
+	-webkit-transform:translateY(-100%);
+	transform: translateY(-100%);
 }
 
 #up-btn.btn-focus{

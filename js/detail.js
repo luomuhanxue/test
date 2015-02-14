@@ -12,15 +12,13 @@ DetailPage = {
         };
         //back.z_idx = 0;
         //back.z_group = 1;
-        this.refreshData();
+        //this.refreshData();
     },
     enter: function () {
         this.refreshData();
     },
     out: function () {
-
         $(".more_img").remove();
-
     },
     setData: function (json) {
         this.data = json;

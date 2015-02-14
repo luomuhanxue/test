@@ -36,8 +36,9 @@ ListPage={
 	now_idx:1,		//当前的数据页面
 	all_count:0,	//总条数
 	all_pages:0,	//总页数
-	show_count:0,	//当前显示的长度 1~6 不足6个 移动焦点根据此长度来判断
+	show_count:6,	//当前显示的长度 1~6 不足6个 移动焦点根据此长度来判断
 	is_clear:true,	//离开界面是否清数据
+	page_idx:null,	//页面页码
 	init:function(pageInto,pageOut,response){
 		//屏幕自适应
 	  	var that = this;
@@ -73,6 +74,7 @@ ListPage={
 			item.z_focus = focus;item.z_unfocus = unfocus;item.onmouseover = mouseover;item.onclick = click;
 		});
 		var content = $(page.find(".content")[0]);
+		this.page_idx = content.find("#page-idx")[0];
 		this.list_gallery = $(content).find('.list-gallery')[0];
 	},
 	enter:function(){
@@ -139,6 +141,9 @@ ListPage={
 			}
 		}
 	},
+	updatePageIndex:function(){//更新页码
+		this.page_idx.innerText = this.now_idx+'/'+this.all_pages;
+	},
 	appendData:function (data) {	//获取回来数据 增加
 		var len = data.length;
 		var s = this.now_idx*this.page_size;
@@ -162,25 +167,19 @@ ListPage={
 				this.items_divs[i].style.display = 'none';
 			}
 		}
-	},
-	updateItem:function(info,idx){	//刷新listitem数据
-		var border = this.items_controls[idx];
-		border.z_item.update(info);
-		//var img_html = '<img src="'+info.src+'">';
-		//var name_html = '<div class="info"><span>'+info.name+'</span></div>';
-		//var price_html = '<div class="price"><span class="price-unit">￥</span><span class="price-value">'+info.price+'</span><del class="del-price"><span>门店价</span><span>￥'+info.value+'</span></del></div>';
-    	//border.innerHTML = img_html+name_html+price_html;
+		this.updatePageIndex();
 	},
 	createList:function(){
 		this.title.innerText = this.title_name;
 		this.list_gallery.innerHTML='';
 		this.items_controls = [];
-		this.show_count = 6;
+		this.show_count = 0;
 		for(var i = 0;i < 6; ++i){
 			var div = this.creatItem(this.list_data[i],i);
 			if(this.list_data[i]==null){
 				div.style.display = 'none';	//不足6个时候 隐藏
-				this.show_count--;
+			}else{
+				this.show_count++;
 			}
 			this.list_gallery.appendChild(div);
 			this.items_divs[i] = div;
@@ -192,6 +191,7 @@ ListPage={
 		if(this.select_item){this.select_item.z_unfocus();}
 		this.select_item = this.items_controls[0];
 		this.select_item.z_focus();
+		this.updatePageIndex();
 	},
 	creatItem:function(info,idx){	//更新
 /*
@@ -293,7 +293,7 @@ ListPage={
 		  		}
 		  	}else{
 		  		next_idx = now_idx+detal*this.items_line_count;
-		  		if (next_idx >= 0 && next_idx<this.items_controls.length) {
+		  		if (next_idx >= 0 && next_idx<this.show_count) {
 		  		 	this.select_item.z_unfocus();
 		  		 	this.select_item = this.items_controls[next_idx];
 		  		 	this.select_item.z_focus();
@@ -316,7 +316,7 @@ ListPage={
 		  			this.select_item.z_focus();
 		  		};
 		  	}else{
-		  		if(next_idx>=0&&next_idx<this.items_controls.length){
+		  		if(next_idx>=0&&next_idx<this.show_count){
 		  			this.select_item.z_unfocus();
 		  			this.select_item = this.items_controls[next_idx];
 		  			this.select_item.z_focus();
