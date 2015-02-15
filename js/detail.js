@@ -32,15 +32,18 @@ DetailPage = {
             $("#id_deal_title").text(json.dealTitle=null?json.dealName:json.dealTitle);
             $("#id_deal_price").text(json.price=null?"":json.price);
             $("#id_sale_num").text(json.salesNum=null?"":json.salesNum);
-            if(json.dealSeller==null||json.dealSeller=="null"||json.dealSeller==undefined)
-            {
-                $("#id_shop_name").text("商家:" + json.dealAddress);
-            }
-            else
-            {
-            $("#id_shop_name").text("商家:"+(json.dealSeller=null?"":json.dealSeller) + "(" + json.dealAddress + ")");
-            }
             
+            if(json.shopList==null||json.shopList=="null"||json.shopList==undefined)
+            {
+                if(json.dealSeller==null||json.dealSeller=="null"||json.dealSeller==undefined)
+                {
+                    $("#id_shop_name").text("商家:暂无" );
+                }
+                else
+                {
+                    $("#id_shop_name").text("商家:" + json.dealSeller);
+                }
+            }
             
             $("#id_deal_value").text("￥" + json.value);
 
@@ -81,6 +84,7 @@ DetailPage = {
             for (var i = 0; i < shopList.length; i++) {
                 if (shopList[i].shopAddr == json.dealAddress) {
                     $("#id_deal_shop_tel").text(shopList[i].shopTel);
+                    $("#id_shop_name").text("商家:" + json.shopList[i].shopName+"("+json.shopList[i].shopAddr+")");
                 }
             }
 

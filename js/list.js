@@ -10,13 +10,13 @@ function ListItem(item){
 	var price_div = $(root.find('.price')[0]);
 	this.price = price_div.find('.price-value')[0];
 	this.value = price_div.find('del>.del-value')[0];
-}
+};
 ListItem.prototype.update=function(info){
 	this.img.src = info.src;
 	this.name.innerText = info.name;
 	this.price.innerText = info.price;
 	this.value.innerText = '￥'+info.value;
-}
+};
 
 ListPage={
 	title:null,				//标题元素
@@ -263,7 +263,7 @@ ListPage={
 			var city_page = document.querySelector("#detail_page");
 			Loading.show();
 			var that = this;
-			var ajaxId = DealPost.detail(this.list_data[s_idx].id,function(data){
+			var ajaxId = DealPost.detail(this.city_code,this.list_data[s_idx].id,function(data){
 				Loading.close();
 			    DetailPage.setData(data[0]);
 			    that.is_clear=false;

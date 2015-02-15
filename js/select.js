@@ -86,7 +86,7 @@ SelectPage={
       var kindCity = {2:{name:"丽人",style:"cosmetics",img:"img/liren.png",code:2},
                       4:{name:"生活服务",style:"serve",img:"img/fuwu.png",code:3},
                       3:{name:'休闲娱乐',style:"amuse",img:"img/yule.png",code:4},
-                      5:{name:"商品",style:"shop",img:"img/gouwu.png",code:5},
+                      //5:{name:"商品",style:"shop",img:"img/gouwu.png",code:5},
                       206:{name:"运动健身",style:"jianshen",img:"img/fuwu.png",code:206},
                       207:{name:"摄影写真",style:"photo",img:"img/sheying.png",code:207},
                       208:{name:"电影",style:"film",img:"img/dianying.png",code:208},
@@ -112,16 +112,41 @@ SelectPage={
       that.updateItems(items);
     },function(msg){
       Loading.close();
+      setTimeout(
+        function(){
+          Tips.show("加载数据错误!","确  定");
+        },200
+      );
+      var items = [];
+      that.updateItems(items);
     });
     Loading.registerAjaxId(ajaxId);
   },
   updateItems:function(items){ //更新分类项
 //<div class="select-kind"><div id="food"><img src="img/meishi.png"></img><div>美食</div></div></div> <div class="select-kind"><div id="hotel"><img src="img/jiudian.png"></img><div>酒店</div></div></div> <div class="select-kind"><div id="cosmetics"><img src="img/liren.png"></img><div>丽人</div></div></div> <div class="select-kind"><div id="journey"><img src="img/lvyou.png"></img><div>旅游</div></div></div><br><div class="select-kind"><div id="film"><img src="img/dianying.png"></img><div>电影</div></div></div> <div class="select-kind"><div id="serve"><img src="img/fuwu.png"></img><div>生活服务</div></div></div> <div class="select-kind"><div id="amuse"><img src="img/yule.png"></img><div>休闲娱乐</div></div></div> <div class="select-kind"><div id="about"><img src="img/meishi.png"></img><div>关于</div></div></div>
-    this.kind = items;
     this.select_layer.innerHTML='';
-    var len = items.length>=7?7:items.length;
+    //var len = items.length>=7?7:items.length;
+    var kinds = [];
     this.controls = [];
     var i = 0;
+    for(key in items)
+    {
+      var temp = items[key];
+      if(temp!=null){
+        kinds[i]=temp;
+        var div = this.getItem(temp.name,temp.style,temp.img);
+        this.controls[i] = div;div.z_idx = i;div.z_itemId = temp.code;div.z_name = temp.name;
+        this.select_layer.appendChild(div);
+        if (i == 3) {
+          var br = document.createElement("br");
+          this.select_layer.appendChild(br);
+        };
+        i++;
+      }
+      if(i>=7)break;
+    }
+    this.kind = kinds;
+    /*
     for(; i < len; ++i){
       var temp = items[i];
       var div = this.getItem(temp.name,temp.style,temp.img);
@@ -131,7 +156,7 @@ SelectPage={
         var br = document.createElement("br");
         this.select_layer.appendChild(br);
       };
-    }
+    }*/
     var div = this.getItem("关于","about","img/guanyu.png");
     this.controls[i] = div;div.z_idx = i;div.z_itemId = 'about';div.z_name='关于';
     this.select_layer.appendChild(div);

@@ -147,13 +147,14 @@ DealPost = {
 		return ret;
 	},
 
-	detail : function(deal_id, callback, failed) {
+	detail : function(city_id,deal_id, callback, failed) {
 		var url1 = server_url+'deal/detail';
 		var ret = $.ajax({
 			url : url1,
 			type : 'POST',
 			data : {
-				dealId : deal_id
+				dealId : deal_id,
+				cityId : city_id
 			},
 			dataType : "jsonp",
 			success : function(json) {
